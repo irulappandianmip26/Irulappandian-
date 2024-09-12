@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Apache HTTPD service
+  httpd:
+    image: httpd:latest
+    container_name: apache-httpd
+    ports:
+      - "8080:80"
+    volumes:
+      - ./httpd-html:/usr/local/apache2/htdocs/
+    networks:
+      - webnet
+
+  # LAMP Stack (Apache, MySQL, PHP)
+  lamp:
+    image: tutum/lamp:latest
+    container_name: lamp-server
+    ports:
+      - "8081:80"
+    environment:
+      MYSQL_ROOT_PASSWORD: pandi
+    volumes:
+      - ./lamp-html:/app
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge
+
